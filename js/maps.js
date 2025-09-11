@@ -163,30 +163,25 @@ class MapsHandler {
           continue;
         }
         
-        // Try AdvancedMarkerElement first, fallback to Marker
-        let marker;
-        try {
-          if (google.maps.marker && google.maps.marker.AdvancedMarkerElement && this.map.getMapId()) {
-            marker = new google.maps.marker.AdvancedMarkerElement({
-              position: { lat: image.lat, lng: image.lng },
-              map: this.map,
-              title: `Graffiti: ${image.filename}`,
-              content: this.createCustomMarkerElement()
-            });
-          } else {
-            throw new Error('AdvancedMarkerElement not available');
-          }
-        } catch (error) {
-          // Fallback to legacy Marker
-          marker = new google.maps.Marker({
-            position: { lat: image.lat, lng: image.lng },
-            map: this.map,
-            icon: this.createCustomMarkerIcon(),
-            title: `Graffiti: ${image.filename}`,
-            optimized: false,
-            zIndex: 100
-          });
-        }
+        // Create standard marker for better compatibility and visibility
+        const marker = new google.maps.Marker({
+          position: { lat: image.lat, lng: image.lng },
+          map: this.map,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: '#ff6b35',
+            fillOpacity: 1.0,
+            strokeColor: '#ffffff',
+            strokeWeight: 2,
+            scale: 8
+          },
+          title: `Graffiti: ${image.filename}`,
+          optimized: false,
+          zIndex: 1000,
+          visible: true
+        });
+        
+        console.log(`✓ Created marker at ${image.lat}, ${image.lng} for ${image.filename}`);
         
         // Create info window
         const infoWindow = this.createInfoWindow(image);
@@ -383,29 +378,23 @@ class MapsHandler {
       return null;
     }
     
-    // Try AdvancedMarkerElement first, fallback to Marker
-    let marker;
-    try {
-      if (google.maps.marker && google.maps.marker.AdvancedMarkerElement && this.map.getMapId()) {
-        marker = new google.maps.marker.AdvancedMarkerElement({
-          position: { lat: imageData.lat, lng: imageData.lng },
-          map: this.map,
-          content: this.createCustomMarkerElement(),
-          title: `Graffiti: ${imageData.filename}`
-        });
-      } else {
-        throw new Error('AdvancedMarkerElement not available');
-      }
-    } catch (error) {
-      // Fallback to legacy Marker
-      marker = new google.maps.Marker({
-        position: { lat: imageData.lat, lng: imageData.lng },
-        map: this.map,
-        icon: this.createCustomMarkerIcon(),
-        title: `Graffiti: ${imageData.filename}`,
-        optimized: false
-      });
-    }
+    // Create standard marker 
+    const marker = new google.maps.Marker({
+      position: { lat: imageData.lat, lng: imageData.lng },
+      map: this.map,
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: '#ff6b35',
+        fillOpacity: 1.0,
+        strokeColor: '#ffffff',
+        strokeWeight: 2,
+        scale: 8
+      },
+      title: `Graffiti: ${imageData.filename}`,
+      optimized: false,
+      zIndex: 1000,
+      visible: true
+    });
     
     const infoWindow = this.createInfoWindow(imageData);
     
