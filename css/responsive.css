@@ -1,0 +1,446 @@
+/* Valencia DANA Graffiti Archive - Responsive Styles */
+
+/* ===== Mobile First Responsive Design ===== */
+
+/* Extra Small Devices (phones, 320px and up) */
+@media (max-width: 480px) {
+  /* Header adjustments */
+  .main-header {
+    padding: var(--spacing-md) var(--spacing-md);
+  }
+  
+  .header-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    text-align: center;
+  }
+  
+  .header-main h1.site-title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .header-actions {
+    align-items: center;
+  }
+  
+  .stats-container {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .stat-item {
+    min-width: auto;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .instagram-btn {
+    padding: var(--spacing-md);
+    font-size: 0.9rem;
+  }
+  
+  .instagram-text {
+    display: none;
+  }
+  
+  .instagram-icon {
+    font-size: 1.4rem;
+  }
+  
+  /* Map adjustments */
+  .map-container {
+    height: calc(100vh - 220px);
+  }
+  
+  .map-controls {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+  }
+  
+  .control-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+  }
+  
+  .map-info-panel {
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+    max-width: none;
+    width: calc(100% - var(--spacing-md));
+  }
+  
+  /* Footer adjustments */
+  .main-footer {
+    padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+  }
+  
+  .footer-links {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    text-align: center;
+  }
+  
+  .footer-main h3 {
+    font-size: 1.5rem;
+  }
+  
+  .footer-description {
+    font-size: 1rem;
+  }
+  
+  /* Loading screen */
+  .loading-content {
+    padding: var(--spacing-lg);
+    max-width: 90%;
+  }
+  
+  .loading-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .loading-content p {
+    font-size: 1rem;
+  }
+}
+
+/* Small Devices (landscape phones, 481px and up) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .header-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    text-align: center;
+  }
+  
+  .stats-container {
+    justify-content: center;
+  }
+  
+  .map-info-panel {
+    max-width: 400px;
+  }
+  
+  .footer-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Medium Devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .header-content {
+    grid-template-columns: 1fr auto;
+    text-align: left;
+  }
+  
+  .header-main h1.site-title {
+    font-size: 2rem;
+  }
+  
+  .stats-container {
+    flex-direction: row;
+  }
+  
+  .map-info-panel {
+    max-width: 350px;
+  }
+  
+  .footer-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Large Devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .header-content {
+    max-width: 1200px;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+  }
+}
+
+/* Extra Large Devices (large desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  .header-content {
+    max-width: 1400px;
+  }
+  
+  .footer-content {
+    max-width: 1400px;
+  }
+  
+  .header-main h1.site-title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* ===== Touch-Specific Styles ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .control-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 1.3rem;
+  }
+  
+  .instagram-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-height: 48px;
+  }
+  
+  .close-btn,
+  .modal-close-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .control-btn:hover,
+  .instagram-btn:hover {
+    transform: none;
+  }
+  
+  /* Optimize map info panel for touch */
+  .map-info-panel {
+    touch-action: pan-y;
+  }
+}
+
+/* ===== High DPI / Retina Display Support ===== */
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi),
+       (min-resolution: 2dppx) {
+  .loading-spinner {
+    border-width: 2px;
+  }
+  
+  .progress-bar {
+    height: 4px;
+  }
+}
+
+/* ===== Landscape Orientation ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+  .main-header {
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+  
+  .header-content {
+    gap: var(--spacing-md);
+  }
+  
+  .header-main h1.site-title {
+    font-size: 1.6rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .map-container {
+    height: calc(100vh - 120px);
+  }
+  
+  .stats-container {
+    gap: var(--spacing-md);
+  }
+  
+  .stat-number {
+    font-size: 1.4rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+  }
+  
+  .map-info-panel {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  .main-header,
+  .map-controls,
+  .map-info-panel,
+  .main-footer,
+  .loading-screen,
+  .modal-overlay {
+    display: none !important;
+  }
+  
+  .map-container {
+    height: 80vh;
+    page-break-inside: avoid;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .map {
+    border: 2px solid #333;
+  }
+}
+
+/* ===== Custom Map Marker Styles for Different Screen Sizes ===== */
+@media (max-width: 480px) {
+  /* These will be applied via JavaScript */
+  .custom-marker-small {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+@media (min-width: 481px) {
+  .custom-marker-normal {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+/* ===== Image Popup Responsive Styles ===== */
+@media (max-width: 480px) {
+  .image-popup {
+    width: 95vw !important;
+    height: auto !important;
+    max-height: 70vh !important;
+  }
+  
+  .image-popup img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 60vh !important;
+    object-fit: contain !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .image-popup {
+    width: 85vw !important;
+    max-height: 75vh !important;
+  }
+  
+  .image-popup img {
+    max-height: 65vh !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .image-popup {
+    width: 70vw !important;
+    max-width: 800px !important;
+    max-height: 80vh !important;
+  }
+  
+  .image-popup img {
+    max-height: 70vh !important;
+  }
+}
+
+/* ===== Loading Screen Responsive ===== */
+@media (max-width: 480px) {
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .progress-bar {
+    height: 8px;
+  }
+}
+
+/* ===== Accessibility Improvements for Small Screens ===== */
+@media (max-width: 767px) {
+  /* Ensure minimum contrast for small text */
+  .stat-label,
+  .progress-text,
+  .update-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  /* Increase line height for better readability */
+  .info-content p {
+    line-height: 1.7;
+  }
+  
+  /* Make modal content more readable on small screens */
+  .modal-content {
+    width: 95vw;
+    margin: var(--spacing-sm);
+  }
+  
+  .modal-body {
+    padding: var(--spacing-lg);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+/* ===== Animation Adjustments for Performance ===== */
+@media (max-width: 480px) {
+  /* Reduce animations on low-powered devices */
+  .instagram-btn:hover,
+  .control-btn:hover {
+    transition-duration: 0.15s;
+  }
+  
+  .loading-spinner {
+    animation-duration: 1.2s;
+  }
+  
+  .fade-in,
+  .slide-up {
+    animation-duration: 0.3s;
+  }
+}
+
+/* ===== Safe Area for Notched Devices ===== */
+@supports (padding-top: constant(safe-area-inset-top)) {
+  .main-header {
+    padding-top: calc(var(--spacing-lg) + constant(safe-area-inset-top));
+  }
+}
+
+@supports (padding-top: env(safe-area-inset-top)) {
+  .main-header {
+    padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
+  }
+  
+  .main-footer {
+    padding-bottom: calc(var(--spacing-xl) + env(safe-area-inset-bottom));
+  }
+}
+
+/* ===== Dark Mode Support (for system preference) ===== */
+@media (prefers-color-scheme: dark) {
+  /* Keep the existing design but ensure sufficient contrast */
+  .map-info-panel {
+    background: rgba(44, 62, 80, 0.95);
+    color: var(--white);
+  }
+  
+  .modal-content {
+    background: var(--primary-dark);
+    color: var(--white);
+  }
+  
+  .modal-body {
+    color: var(--light-gray);
+  }
+}

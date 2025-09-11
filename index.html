@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivo Graffitis DANA Valencia - Memoria Histórica</title>
+    <meta name="description" content="Documentación histórica de graffitis post-DANA Valencia 29 de octubre 2024. Mapa interactivo con archivo fotográfico ciudadano.">
+    <meta name="keywords" content="Valencia, DANA, graffiti, memoria histórica, 29 octubre 2024, documentación ciudadana">
+    <meta name="author" content="Valencia DANA Documentation Project">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Archivo Graffitis DANA Valencia - Memoria Histórica">
+    <meta property="og:description" content="Documentación histórica de graffitis post-DANA Valencia del 29 de octubre 2024">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://your-domain.github.io/valencia-dana-docs/assets/og-image.jpg">
+    
+    <!-- CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Config -->
+    <script src="data/config.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="header-main">
+                <h1 class="site-title">Archivo Graffitis DANA Valencia</h1>
+                <p class="subtitle">Documentando la memoria histórica post-29O</p>
+            </div>
+            
+            <div class="header-actions">
+                <a href="#" id="instagram-link" class="instagram-btn" target="_blank" rel="noopener noreferrer">
+                    <span class="instagram-icon">📸</span>
+                    <span class="instagram-text">Síguenos en Instagram</span>
+                </a>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" id="image-counter">-</span>
+                        <span class="stat-label">graffitis documentados</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="mappable-counter">-</span>
+                        <span class="stat-label">con ubicación GPS</span>
+                    </div>
+                </div>
+                
+                <div class="last-update">
+                    <span class="update-label">Última actualización:</span>
+                    <span id="last-update-time" class="update-time">Cargando...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h2>Cargando archivo histórico</h2>
+                <p>Preparando el mapa de la memoria ciudadana...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="loading-progress"></div>
+                    </div>
+                    <span class="progress-text" id="loading-text">Iniciando...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-container">
+            <div id="map" class="map"></div>
+            
+            <!-- Map Controls -->
+            <div class="map-controls">
+                <button id="recenter-btn" class="control-btn" title="Centrar en Valencia">
+                    <span class="control-icon">🎯</span>
+                </button>
+                <button id="fullscreen-btn" class="control-btn" title="Pantalla completa">
+                    <span class="control-icon">⛶</span>
+                </button>
+            </div>
+            
+            <!-- Map Info Panel -->
+            <div class="map-info-panel">
+                <div class="info-header">
+                    <h3>Instrucciones</h3>
+                    <button id="close-info" class="close-btn">×</button>
+                </div>
+                <div class="info-content">
+                    <p><strong>📍 Haz clic</strong> en cualquier punto naranja del mapa para ver el graffiti</p>
+                    <p><strong>🔍 Navega</strong> con el ratón o gestos táctiles para explorar Valencia</p>
+                    <p><strong>📱 Comparte</strong> tu ubicación para ver graffitis cercanos</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <h3>Valencia DANA - Memoria Histórica</h3>
+                <p class="footer-description">
+                    Documentación ciudadana de la expresión callejera post-DANA del 29 de octubre de 2024. 
+                    Un archivo colectivo de la memoria y resistencia valenciana.
+                </p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="#about" onclick="showAboutModal()">Sobre el proyecto</a></li>
+                        <li><a href="#contribute" onclick="showContributeModal()">Colaborar</a></li>
+                        <li><a href="#methodology" onclick="showMethodologyModal()">Metodología</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="#" id="footer-instagram-link" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                        <li><a href="mailto:contact@valencia-dana-docs.org">Email</a></li>
+                        <li><a href="https://github.com/your-username/valencia-dana-docs" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="disclaimer">
+                    Esta documentación tiene fines históricos, educativos y de archivo social. 
+                    Las imágenes mostradas son de dominio público ciudadano y están geo-localizadas 
+                    para preservar el contexto histórico de la expresión callejera post-DANA.
+                </p>
+                <p class="copyright">
+                    © 2024 Valencia DANA Documentation Project - 
+                    <a href="#license" onclick="showLicenseModal()">Licencia MIT</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Container -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Título</h2>
+                <button id="modal-close" class="modal-close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/maps.js"></script>
+    
+    <!-- Google Maps API (will be loaded dynamically) -->
+    <script>
+        // Load Google Maps API with the API key from config
+        function initGoogleMapsAPI() {
+            if (typeof CONFIG !== 'undefined' && CONFIG.googleMaps && CONFIG.googleMaps.apiKey) {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.googleMaps.apiKey}&callback=initializeApplication&libraries=geometry`;
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+            } else {
+                console.error('Google Maps API key not found in config');
+                showError('Error de configuración: clave de API de Google Maps no encontrada');
+            }
+        }
+        
+        // Initialize the application
+        window.addEventListener('DOMContentLoaded', initGoogleMapsAPI);
+    </script>
+</body>
+</html>

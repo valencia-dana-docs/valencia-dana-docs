@@ -1,0 +1,32 @@
+{
+  "lastUpdated": "2024-12-09T10:30:00Z",
+  "totalImages": 0,
+  "mappableImages": 0,
+  "images": [],
+  "allImages": [],
+  "metadata": {
+    "version": "1.0.0",
+    "source": "Google Drive API",
+    "processedBy": "Valencia DANA Documentation Project",
+    "description": "Archivo automatizado de graffitis post-DANA Valencia del 29 de octubre 2024",
+    "coordinateSystem": "WGS84",
+    "timezone": "Europe/Madrid"
+  },
+  "stats": {
+    "imagesWithGPS": 0,
+    "imagesWithoutGPS": 0,
+    "averageLatitude": null,
+    "averageLongitude": null,
+    "boundingBox": {
+      "north": null,
+      "south": null,
+      "east": null,
+      "west": null
+    },
+    "dateRange": {
+      "earliest": null,
+      "latest": null
+    }
+  },
+  "note": "Este archivo se actualiza automáticamente cada 12 horas mediante GitHub Actions. Los datos provienen de imágenes ciudadanas con metadatos GPS almacenadas en Google Drive."
+}

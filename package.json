@@ -1,0 +1,107 @@
+{
+  "name": "valencia-dana-docs",
+  "version": "1.0.0",
+  "description": "Automated graffiti mapping system for Valencia post-DANA historical documentation with 12-hour updates via GitHub Actions",
+  "main": "index.html",
+  "homepage": "https://your-username.github.io/valencia-dana-docs",
+  "scripts": {
+    "start": "npm run serve",
+    "serve": "python -m http.server 8000 || npx http-server -p 8000 -c-1",
+    "serve:node": "npx http-server -p 8000 -c-1",
+    "fetch-images": "node scripts/fetch-images.js",
+    "test:fetch": "npm run fetch-images",
+    "validate-config": "node -e \"const CONFIG = require('./data/config.js'); console.log('✅ Config validation:', CONFIG.validate());\"",
+    "build": "echo '✅ Static site - no build required'",
+    "deploy": "echo '✅ Deployment handled by GitHub Pages'",
+    "lint": "npx prettier --check . --ignore-path .gitignore",
+    "format": "npx prettier --write . --ignore-path .gitignore",
+    "check": "npm run lint && npm run validate-config"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/valencia-dana-docs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/valencia-dana-docs/issues"
+  },
+  "keywords": [
+    "valencia",
+    "dana",
+    "graffiti",
+    "historical-documentation",
+    "mapping",
+    "automation",
+    "github-actions",
+    "google-maps",
+    "google-drive",
+    "ciudadana",
+    "memoria-historica",
+    "street-art",
+    "documentation"
+  ],
+  "author": {
+    "name": "Valencia DANA Documentation Project",
+    "email": "contact@valencia-dana-docs.org",
+    "url": "https://github.com/your-username/valencia-dana-docs"
+  },
+  "contributors": [
+    {
+      "name": "Community Contributors",
+      "url": "https://github.com/your-username/valencia-dana-docs/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "googleapis": "^130.0.0",
+    "exif-reader": "^2.0.1",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.1.0",
+    "http-server": "^14.1.1",
+    "eslint": "^8.56.0"
+  },
+  "files": [
+    "index.html",
+    "css/",
+    "js/",
+    "data/",
+    "scripts/",
+    ".github/",
+    "README.md",
+    "LICENSE"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 100
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-unused-vars": "warn",
+      "no-console": "off"
+    }
+  }
+}
