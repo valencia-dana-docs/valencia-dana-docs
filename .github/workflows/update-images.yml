@@ -1,0 +1,54 @@
+name: Update Images from Google Drive
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'  # Every 12 hours
+  workflow_dispatch:        # Manual trigger
+  push:
+    branches: [ main ]      # Also run on pushes to main for testing
+
+jobs:
+  update-images:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Fetch images from Google Drive
+        run: node scripts/fetch-images.js
+        env:
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code data/images.json || echo "changes=true" >> $GITHUB_OUTPUT
+          
+      - name: Commit and push changes
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/images.json
+          git commit -m "Auto-update: New images from Google Drive $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          git push
+          
+      - name: Create deployment comment
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          echo "✅ Images updated successfully at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo "📊 Processing complete - GitHub Pages will deploy automatically"
