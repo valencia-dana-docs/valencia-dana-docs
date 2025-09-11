@@ -162,14 +162,12 @@ class MapsHandler {
           continue;
         }
         
-        // Create marker
-        const marker = new google.maps.Marker({
+        // Create marker using AdvancedMarkerElement
+        const marker = new google.maps.marker.AdvancedMarkerElement({
           position: { lat: image.lat, lng: image.lng },
           map: this.map,
-          icon: markerIcon,
           title: `Graffiti: ${image.filename}`,
-          optimized: false,
-          zIndex: 100
+          content: this.createCustomMarkerElement()
         });
         
         // Create info window
@@ -216,7 +214,32 @@ class MapsHandler {
     );
   }
   
-  // Create custom marker icon
+  // Create custom marker element for AdvancedMarkerElement
+  createCustomMarkerElement() {
+    const markerElement = document.createElement('div');
+    markerElement.style.cssText = `
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #ff6b35;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    `;
+    
+    markerElement.addEventListener('mouseenter', () => {
+      markerElement.style.transform = 'scale(1.1)';
+    });
+    
+    markerElement.addEventListener('mouseleave', () => {
+      markerElement.style.transform = 'scale(1)';
+    });
+    
+    return markerElement;
+  }
+  
+  // Legacy method for compatibility (kept for fallback)
   createCustomMarkerIcon() {
     return {
       path: google.maps.SymbolPath.CIRCLE,
@@ -342,12 +365,11 @@ class MapsHandler {
       return null;
     }
     
-    const marker = new google.maps.Marker({
+    const marker = new google.maps.marker.AdvancedMarkerElement({
       position: { lat: imageData.lat, lng: imageData.lng },
       map: this.map,
-      icon: this.createCustomMarkerIcon(),
-      title: `Graffiti: ${imageData.filename}`,
-      optimized: false
+      content: this.createCustomMarkerElement(),
+      title: `Graffiti: ${imageData.filename}`
     });
     
     const infoWindow = this.createInfoWindow(imageData);

@@ -184,7 +184,7 @@
                 }
                 
                 const script = document.createElement('script');
-                script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.googleMaps.apiKey}&callback=initializeApplication&libraries=geometry&loading=async`;
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.googleMaps.apiKey}&callback=initializeApplication&libraries=geometry,marker&loading=async`;
                 script.async = true;
                 script.defer = true;
                 script.onerror = function() {
