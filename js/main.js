@@ -71,6 +71,11 @@ class GraffitiApp {
     console.error('Error:', message);
     this.updateLoadingProgress(0, `Error: ${message}`);
     
+    // Check if it's a Google Maps API key issue
+    if (message.includes('InvalidKey') || message.includes('API key')) {
+      message = 'Clave de API de Google Maps inválida. Configura tu API key en data/config.js';
+    }
+    
     // Show error in loading screen
     if (this.loadingText) {
       this.loadingText.innerHTML = `
@@ -276,12 +281,12 @@ class GraffitiApp {
       this.updateLoadingProgress(80, 'Inicializando mapa...');
       
       // Check if MapsHandler is available
-      if (typeof MapsHandler === 'undefined') {
+      if (typeof window.MapsHandler === 'undefined') {
         throw new Error('MapsHandler no está disponible');
       }
       
       // Initialize map with loaded images
-      this.map = await MapsHandler.initializeMap(this.imagesData.images);
+      this.map = await window.MapsHandler.initializeMap(this.imagesData.images);
       
       if (!this.map) {
         throw new Error('No se pudo inicializar el mapa');

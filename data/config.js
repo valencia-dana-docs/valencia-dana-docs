@@ -4,8 +4,8 @@
 const CONFIG = {
   // Google Maps Configuration
   googleMaps: {
-    // IMPORTANT: Replace with your actual Google Maps API key
-    apiKey: 'YOUR_GOOGLE_MAPS_API_KEY_HERE',
+    // API key will be injected by GitHub Actions or set for local development
+    apiKey: window.GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY_HERE',
     
     // Valencia city center coordinates
     center: { 

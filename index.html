@@ -23,6 +23,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
+    <!-- API Key (injected by GitHub Actions) -->
+    <script src="google-maps-key.js" onerror="console.log('google-maps-key.js not found - using config fallback')"></script>
+    
     <!-- Config -->
     <script src="data/config.js"></script>
 </head>
@@ -173,10 +176,21 @@
         // Load Google Maps API with the API key from config
         function initGoogleMapsAPI() {
             if (typeof CONFIG !== 'undefined' && CONFIG.googleMaps && CONFIG.googleMaps.apiKey) {
+                // Check if API key is still the placeholder
+                if (CONFIG.googleMaps.apiKey === 'YOUR_GOOGLE_MAPS_API_KEY_HERE') {
+                    console.error('Google Maps API key not configured');
+                    showError('Configura tu clave de API de Google Maps en data/config.js');
+                    return;
+                }
+                
                 const script = document.createElement('script');
-                script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.googleMaps.apiKey}&callback=initializeApplication&libraries=geometry`;
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.googleMaps.apiKey}&callback=initializeApplication&libraries=geometry&loading=async`;
                 script.async = true;
                 script.defer = true;
+                script.onerror = function() {
+                    console.error('Failed to load Google Maps API');
+                    showError('Error cargando Google Maps API. Verifica tu clave de API.');
+                };
                 document.head.appendChild(script);
             } else {
                 console.error('Google Maps API key not found in config');
