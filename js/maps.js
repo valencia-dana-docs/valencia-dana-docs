@@ -36,6 +36,7 @@ class MapsHandler {
       const mapConfig = {
         center: CONFIG.googleMaps.center,
         zoom: CONFIG.googleMaps.zoom,
+        mapId: "valencia-dana-map", // Required for AdvancedMarkerElement
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         gestureHandling: 'greedy',
         restriction: {
@@ -162,13 +163,30 @@ class MapsHandler {
           continue;
         }
         
-        // Create marker using AdvancedMarkerElement
-        const marker = new google.maps.marker.AdvancedMarkerElement({
-          position: { lat: image.lat, lng: image.lng },
-          map: this.map,
-          title: `Graffiti: ${image.filename}`,
-          content: this.createCustomMarkerElement()
-        });
+        // Try AdvancedMarkerElement first, fallback to Marker
+        let marker;
+        try {
+          if (google.maps.marker && google.maps.marker.AdvancedMarkerElement && this.map.getMapId()) {
+            marker = new google.maps.marker.AdvancedMarkerElement({
+              position: { lat: image.lat, lng: image.lng },
+              map: this.map,
+              title: `Graffiti: ${image.filename}`,
+              content: this.createCustomMarkerElement()
+            });
+          } else {
+            throw new Error('AdvancedMarkerElement not available');
+          }
+        } catch (error) {
+          // Fallback to legacy Marker
+          marker = new google.maps.Marker({
+            position: { lat: image.lat, lng: image.lng },
+            map: this.map,
+            icon: this.createCustomMarkerIcon(),
+            title: `Graffiti: ${image.filename}`,
+            optimized: false,
+            zIndex: 100
+          });
+        }
         
         // Create info window
         const infoWindow = this.createInfoWindow(image);
@@ -365,12 +383,29 @@ class MapsHandler {
       return null;
     }
     
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      position: { lat: imageData.lat, lng: imageData.lng },
-      map: this.map,
-      content: this.createCustomMarkerElement(),
-      title: `Graffiti: ${imageData.filename}`
-    });
+    // Try AdvancedMarkerElement first, fallback to Marker
+    let marker;
+    try {
+      if (google.maps.marker && google.maps.marker.AdvancedMarkerElement && this.map.getMapId()) {
+        marker = new google.maps.marker.AdvancedMarkerElement({
+          position: { lat: imageData.lat, lng: imageData.lng },
+          map: this.map,
+          content: this.createCustomMarkerElement(),
+          title: `Graffiti: ${imageData.filename}`
+        });
+      } else {
+        throw new Error('AdvancedMarkerElement not available');
+      }
+    } catch (error) {
+      // Fallback to legacy Marker
+      marker = new google.maps.Marker({
+        position: { lat: imageData.lat, lng: imageData.lng },
+        map: this.map,
+        icon: this.createCustomMarkerIcon(),
+        title: `Graffiti: ${imageData.filename}`,
+        optimized: false
+      });
+    }
     
     const infoWindow = this.createInfoWindow(imageData);
     
