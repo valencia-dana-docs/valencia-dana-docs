@@ -280,19 +280,31 @@ class GraffitiApp {
     try {
       this.updateLoadingProgress(80, 'Inicializando mapa...');
       
-      // Check if MapsHandler is available
-      if (typeof window.MapsHandler === 'undefined') {
-        throw new Error('MapsHandler no está disponible');
+      // Detect which map handler is available
+      let mapHandler = null;
+      let mapType = '';
+      
+      if (typeof window.LeafletMapsHandler !== 'undefined') {
+        mapHandler = window.LeafletMapsHandler;
+        mapType = 'OpenStreetMap con Leaflet';
+        console.log('🗺️ Using OpenStreetMap with Leaflet');
+      } else if (typeof window.MapsHandler !== 'undefined') {
+        mapHandler = window.MapsHandler;
+        mapType = 'Google Maps';
+        console.log('🗺️ Using Google Maps');
+      } else {
+        throw new Error('No hay ningún manejador de mapas disponible (Google Maps o Leaflet)');
       }
       
       // Initialize map with loaded images
-      this.map = await window.MapsHandler.initializeMap(this.imagesData.images);
+      this.map = await mapHandler.initializeMap(this.imagesData.images);
       
       if (!this.map) {
-        throw new Error('No se pudo inicializar el mapa');
+        throw new Error(`No se pudo inicializar ${mapType}`);
       }
       
-      this.updateLoadingProgress(90, 'Mapa inicializado correctamente');
+      this.updateLoadingProgress(90, `${mapType} inicializado correctamente`);
+      console.log(`✅ Map initialized using ${mapType}`);
       
     } catch (error) {
       console.error('Error initializing maps:', error);
