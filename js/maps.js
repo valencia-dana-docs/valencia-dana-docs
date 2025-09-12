@@ -294,40 +294,15 @@ class MapsHandler {
           <img 
             src="${directImageUrl}" 
             alt="Graffiti: ${imageData.filename}"
-            style="max-width: 280px; max-height: 200px; width: auto; height: auto; border-radius: 8px; cursor: pointer;"
-            onclick="window.openImageModal('${fileId}', '${imageData.filename}', '${formattedDate}')"
+            style="max-width: 280px; max-height: 200px; width: auto; height: auto; border-radius: 8px;"
             loading="lazy"
             onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=download&id=${fileId}'; console.warn('Using download URL fallback for ${imageData.filename}');"
           />
         </div>
         <div class="info-details">
-          <p style="margin: 5px 0; font-weight: bold; font-size: 14px;">
-            📷 ${imageData.filename}
-          </p>
-          <p style="margin: 5px 0; font-size: 12px; color: #666;">
-            📅 ${formattedDate}
-          </p>
           <p style="margin: 5px 0; font-size: 12px; color: #666;">
             📍 ${imageData.lat.toFixed(6)}, ${imageData.lng.toFixed(6)}
           </p>
-          <button 
-            onclick="window.openImageModal('${fileId}', '${imageData.filename}', '${formattedDate}')"
-            style="
-              background: #333333;
-              color: white;
-              border: none;
-              padding: 8px 16px;
-              border-radius: 6px;
-              cursor: pointer;
-              font-size: 12px;
-              margin-top: 8px;
-              transition: background-color 0.3s;
-            "
-            onmouseover="this.style.backgroundColor='#555555'"
-            onmouseout="this.style.backgroundColor='#333333'"
-          >
-            🔍 Ver imagen completa
-          </button>
         </div>
       </div>
     `;
@@ -444,102 +419,6 @@ class MapsHandler {
   }
 }
 
-// Global image modal function
-window.openImageModal = function(fileIdOrUrl, filename, date) {
-  // Use same thumbnail URL as popup but display larger
-  const isFileId = !fileIdOrUrl.startsWith('http');
-  const fullSizeImageUrl = isFileId ? 
-    `https://drive.google.com/thumbnail?id=${fileIdOrUrl}&sz=w800` : 
-    fileIdOrUrl;
-    
-  // Create modal overlay
-  const overlay = document.createElement('div');
-  overlay.className = 'image-modal-overlay';
-  overlay.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    cursor: pointer;
-  `;
-  
-  // Create modal content
-  const content = document.createElement('div');
-  content.className = 'image-modal-content';
-  content.style.cssText = `
-    max-width: 90vw;
-    max-height: 90vh;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    cursor: default;
-  `;
-  
-  content.innerHTML = `
-    <div style="position: relative;">
-      <img 
-        src="${fullSizeImageUrl}" 
-        alt="${filename}"
-        style="width: 100%; height: auto; max-height: 90vh; max-width: 90vw; object-fit: contain; display: block;"
-        onerror="console.error('Failed to load image for ${filename}');"
-      />
-      <button 
-        onclick="document.body.removeChild(this.closest('.image-modal-overlay'))"
-        style="
-          position: absolute;
-          top: 15px;
-          right: 15px;
-          background: rgba(0, 0, 0, 0.7);
-          color: white;
-          border: none;
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        "
-      >×</button>
-    </div>
-    <div style="padding: 20px; border-top: 1px solid #eee;">
-      <h3 style="margin: 0 0 10px 0; color: #2c3e50;">${filename}</h3>
-      <p style="margin: 0; color: #666; font-size: 14px;">${date}</p>
-    </div>
-  `;
-  
-  // Close on overlay click
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      document.body.removeChild(overlay);
-    }
-  });
-  
-  // Prevent content click from closing
-  content.addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
-  
-  // Add ESC key listener
-  const escListener = (e) => {
-    if (e.key === 'Escape') {
-      document.body.removeChild(overlay);
-      document.removeEventListener('keydown', escListener);
-    }
-  };
-  document.addEventListener('keydown', escListener);
-  
-  overlay.appendChild(content);
-  document.body.appendChild(overlay);
-};
 
 // Create global instance
 window.MapsHandler = new MapsHandler();
