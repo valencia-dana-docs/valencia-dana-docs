@@ -408,7 +408,7 @@ window.showContributeModal = function() {
     
     <p>🔗 <strong>Contacta con nosotros:</strong><br>
     📸 <a href="${CONFIG?.instagram?.url || '#'}" target="_blank">Instagram</a><br>
-    📧 Email: contact@valencia-dana-docs.org</p>
+    📧 Email: documentacion.dana.valencia@gmail.com</p>
   `;
   
   if (window.graffitiApp) {
