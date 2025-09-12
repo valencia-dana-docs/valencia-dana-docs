@@ -281,8 +281,11 @@ class MapsHandler {
       timeZone: 'Europe/Madrid'
     }).format(date);
     
-    // Convert Google Drive URL to direct image URL for better compatibility
-    const directImageUrl = imageData.url.replace('export=view', 'export=download');
+    // Convert Google Drive URL to proper direct image URL
+    const fileId = imageData.id || imageData.url.match(/id=([^&]+)/)?.[1];
+    const directImageUrl = fileId ? 
+      `https://drive.google.com/thumbnail?id=${fileId}&sz=w800` :
+      imageData.url.replace('export=view', 'export=download');
     
     // Create content
     const content = `
@@ -292,9 +295,9 @@ class MapsHandler {
             src="${directImageUrl}" 
             alt="Graffiti: ${imageData.filename}"
             style="max-width: 280px; max-height: 200px; width: auto; height: auto; border-radius: 8px; cursor: pointer;"
-            onclick="window.openImageModal('${directImageUrl}', '${imageData.filename}', '${formattedDate}')"
+            onclick="window.openImageModal('${fileId}', '${imageData.filename}', '${formattedDate}')"
             loading="lazy"
-            onerror="this.src='${imageData.url}'; console.warn('Fallback to original URL for ${imageData.filename}');"
+            onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=download&id=${fileId}'; console.warn('Using download URL fallback for ${imageData.filename}');"
           />
         </div>
         <div class="info-details">
@@ -308,7 +311,7 @@ class MapsHandler {
             📍 ${imageData.lat.toFixed(6)}, ${imageData.lng.toFixed(6)}
           </p>
           <button 
-            onclick="window.openImageModal('${directImageUrl}', '${imageData.filename}', '${formattedDate}')"
+            onclick="window.openImageModal('${fileId}', '${imageData.filename}', '${formattedDate}')"
             style="
               background: #333333;
               color: white;
@@ -442,7 +445,13 @@ class MapsHandler {
 }
 
 // Global image modal function
-window.openImageModal = function(imageUrl, filename, date) {
+window.openImageModal = function(fileIdOrUrl, filename, date) {
+  // Determine if it's a file ID or full URL
+  const isFileId = !fileIdOrUrl.startsWith('http');
+  const fullSizeImageUrl = isFileId ? 
+    `https://drive.google.com/uc?export=download&id=${fileIdOrUrl}` : 
+    fileIdOrUrl;
+    
   // Create modal overlay
   const overlay = document.createElement('div');
   overlay.className = 'image-modal-overlay';
@@ -476,9 +485,10 @@ window.openImageModal = function(imageUrl, filename, date) {
   content.innerHTML = `
     <div style="position: relative;">
       <img 
-        src="${imageUrl}" 
+        src="${fullSizeImageUrl}" 
         alt="${filename}"
         style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; display: block;"
+        onerror="console.error('Failed to load full size image for ${filename}');"
       />
       <button 
         onclick="document.body.removeChild(this.closest('.image-modal-overlay'))"
