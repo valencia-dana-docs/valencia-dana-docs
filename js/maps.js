@@ -449,7 +449,7 @@ window.openImageModal = function(fileIdOrUrl, filename, date) {
   // Determine if it's a file ID or full URL
   const isFileId = !fileIdOrUrl.startsWith('http');
   const fullSizeImageUrl = isFileId ? 
-    `https://drive.google.com/uc?export=download&id=${fileIdOrUrl}` : 
+    `https://drive.google.com/thumbnail?id=${fileIdOrUrl}&sz=w1600` : 
     fileIdOrUrl;
     
   // Create modal overlay
@@ -488,7 +488,14 @@ window.openImageModal = function(fileIdOrUrl, filename, date) {
         src="${fullSizeImageUrl}" 
         alt="${filename}"
         style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; display: block;"
-        onerror="console.error('Failed to load full size image for ${filename}');"
+        onerror="
+          if (this.src.includes('sz=w1600')) {
+            this.src = 'https://drive.google.com/uc?export=download&id=${isFileId ? fileIdOrUrl : fileIdOrUrl.match(/id=([^&]+)/)?.[1]}';
+            console.warn('Fallback to download URL for ${filename}');
+          } else {
+            console.error('Failed to load full size image for ${filename}');
+          }
+        "
       />
       <button 
         onclick="document.body.removeChild(this.closest('.image-modal-overlay'))"
