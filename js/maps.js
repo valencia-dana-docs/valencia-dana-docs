@@ -446,10 +446,10 @@ class MapsHandler {
 
 // Global image modal function
 window.openImageModal = function(fileIdOrUrl, filename, date) {
-  // Determine if it's a file ID or full URL
+  // Use same thumbnail URL as popup but display larger
   const isFileId = !fileIdOrUrl.startsWith('http');
   const fullSizeImageUrl = isFileId ? 
-    `https://drive.google.com/thumbnail?id=${fileIdOrUrl}&sz=w1600` : 
+    `https://drive.google.com/thumbnail?id=${fileIdOrUrl}&sz=w800` : 
     fileIdOrUrl;
     
   // Create modal overlay
@@ -487,15 +487,8 @@ window.openImageModal = function(fileIdOrUrl, filename, date) {
       <img 
         src="${fullSizeImageUrl}" 
         alt="${filename}"
-        style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; display: block;"
-        onerror="
-          if (this.src.includes('sz=w1600')) {
-            this.src = 'https://drive.google.com/uc?export=download&id=${isFileId ? fileIdOrUrl : fileIdOrUrl.match(/id=([^&]+)/)?.[1]}';
-            console.warn('Fallback to download URL for ${filename}');
-          } else {
-            console.error('Failed to load full size image for ${filename}');
-          }
-        "
+        style="width: 100%; height: auto; max-height: 90vh; max-width: 90vw; object-fit: contain; display: block;"
+        onerror="console.error('Failed to load image for ${filename}');"
       />
       <button 
         onclick="document.body.removeChild(this.closest('.image-modal-overlay'))"
