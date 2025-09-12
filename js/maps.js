@@ -87,12 +87,16 @@ class MapsHandler {
       {
         featureType: 'poi',
         elementType: 'labels',
-        stylers: [{ visibility: 'on' }]
+        stylers: [{ visibility: 'off' }]
+      },
+      {
+        featureType: 'poi.business',
+        stylers: [{ visibility: 'off' }]
       },
       {
         featureType: 'transit',
         elementType: 'labels',
-        stylers: [{ visibility: 'on' }]
+        stylers: [{ visibility: 'off' }]
       },
       {
         featureType: 'road',
@@ -169,7 +173,7 @@ class MapsHandler {
           map: this.map,
           icon: {
             path: google.maps.SymbolPath.CIRCLE,
-            fillColor: '#ff6b35',
+            fillColor: '#000000',
             fillOpacity: 1.0,
             strokeColor: '#ffffff',
             strokeWeight: 2,
@@ -234,7 +238,7 @@ class MapsHandler {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background-color: #ff6b35;
+      background-color: #000000;
       border: 3px solid #ffffff;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       cursor: pointer;
@@ -256,7 +260,7 @@ class MapsHandler {
   createCustomMarkerIcon() {
     return {
       path: google.maps.SymbolPath.CIRCLE,
-      fillColor: '#ff6b35', // Valencia orange
+      fillColor: '#000000', // Black markers
       fillOpacity: 0.9,
       strokeColor: '#ffffff',
       strokeWeight: 3,
@@ -277,16 +281,20 @@ class MapsHandler {
       timeZone: 'Europe/Madrid'
     }).format(date);
     
+    // Convert Google Drive URL to direct image URL for better compatibility
+    const directImageUrl = imageData.url.replace('export=view', 'export=download');
+    
     // Create content
     const content = `
       <div class="info-window-content" style="max-width: 300px; padding: 10px;">
         <div class="image-container" style="margin-bottom: 10px; text-align: center;">
           <img 
-            src="${imageData.url}" 
+            src="${directImageUrl}" 
             alt="Graffiti: ${imageData.filename}"
             style="max-width: 280px; max-height: 200px; width: auto; height: auto; border-radius: 8px; cursor: pointer;"
-            onclick="window.openImageModal('${imageData.url}', '${imageData.filename}', '${formattedDate}')"
+            onclick="window.openImageModal('${directImageUrl}', '${imageData.filename}', '${formattedDate}')"
             loading="lazy"
+            onerror="this.src='${imageData.url}'; console.warn('Fallback to original URL for ${imageData.filename}');"
           />
         </div>
         <div class="info-details">
@@ -300,9 +308,9 @@ class MapsHandler {
             📍 ${imageData.lat.toFixed(6)}, ${imageData.lng.toFixed(6)}
           </p>
           <button 
-            onclick="window.openImageModal('${imageData.url}', '${imageData.filename}', '${formattedDate}')"
+            onclick="window.openImageModal('${directImageUrl}', '${imageData.filename}', '${formattedDate}')"
             style="
-              background: #ff6b35;
+              background: #333333;
               color: white;
               border: none;
               padding: 8px 16px;
@@ -312,8 +320,8 @@ class MapsHandler {
               margin-top: 8px;
               transition: background-color 0.3s;
             "
-            onmouseover="this.style.backgroundColor='#e55a2b'"
-            onmouseout="this.style.backgroundColor='#ff6b35'"
+            onmouseover="this.style.backgroundColor='#555555'"
+            onmouseout="this.style.backgroundColor='#333333'"
           >
             🔍 Ver imagen completa
           </button>
@@ -384,7 +392,7 @@ class MapsHandler {
       map: this.map,
       icon: {
         path: google.maps.SymbolPath.CIRCLE,
-        fillColor: '#ff6b35',
+        fillColor: '#000000',
         fillOpacity: 1.0,
         strokeColor: '#ffffff',
         strokeWeight: 2,
